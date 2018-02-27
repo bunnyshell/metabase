@@ -1,0 +1,16 @@
+exec_once:
+ execs:
+  Configure Metabase:
+   name: Configure Metabase
+   command: |
+     #!/usr/bin/env bash
+     sudo apt-get update
+     sudo apt-get install -y default-jre
+     wget http://downloads.metabase.com/v0.28.1/metabase.jar
+post_app_deploy:
+ execs:
+  Run metabase:
+   name: Run metabase
+   command: |
+     #!/usr/bin/env bash
+     nohup java -jar metabase.jar &> /var/log/metabase &
