@@ -1,4 +1,23 @@
 exec_once:
+ files:
+  /etc/systemd/system/metabase.service:
+    name: metabase.service
+    path: /etc/systemd/system/
+    mode: "0777"
+    owner: root
+    group: root
+    content: |
+      [Unit]
+      Description=Metabase
+      
+      [Service]
+      Environment=MB_DB_TYPE=h2
+      Environment=MB_DB_FILE=/opt/metabase/metabase.db
+      Environment=MB_EMOJI_IN_LOGS=false
+      ExecStart=/usr/bin/java -jar /opt/metabase/metabase.jar
+      
+      [Install]
+      WantedBy=multi-user.target
  execs:
   Configure Metabase:
    name: Configure Metabase
@@ -6,10 +25,15 @@ exec_once:
      #!/usr/bin/env bash
      apt-get install -y default-jre
      wget http://downloads.metabase.com/v0.28.1/metabase.jar
-post_app_deploy:
- execs:
-  Run metabase:
-   name: Run metabase
+  Enable Metabase Service:
+   name: Enable Metabase Service
    command: |
      #!/usr/bin/env bash
-     nohup java -jar metabase.jar &> /var/log/metabase &
+     sudo systemctl enable metabase.service
+post_app_deploy:
+ execs:
+  Start metabase:
+   name: Start metabase
+   command: |
+     #!/usr/bin/env bash
+     sudo systemctl start metabase.service
