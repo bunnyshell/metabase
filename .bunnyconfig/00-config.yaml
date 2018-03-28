@@ -4,8 +4,7 @@ exec_once:
    name: Configure Metabase
    command: |
      #!/usr/bin/env bash
-     sudo apt-get update
-     sudo apt-get install -y default-jre
+     apt-get install -y default-jre
      wget http://downloads.metabase.com/v0.28.1/metabase.jar
 post_app_deploy:
  execs:
