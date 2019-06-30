@@ -12,9 +12,9 @@ exec_once:
       
       [Service]
       Environment=MB_DB_TYPE=h2
-      Environment=MB_DB_FILE=/opt/metabase/metabase.db
+      Environment=MB_DB_FILE=<%= @app_root %>/metabase.db
       Environment=MB_EMOJI_IN_LOGS=false
-      ExecStart=/usr/bin/java -jar /opt/metabase/metabase.jar
+      ExecStart=/usr/bin/java -jar <%= @app_root %>/metabase.jar
       
       [Install]
       WantedBy=multi-user.target
